@@ -1,7 +1,7 @@
 import { Code, ConnectError } from "@connectrpc/connect";
 import { identityClient } from "../../../../api/identity";
 import type { MutationResolvers } from "./../../../types.generated";
-export const createUser: NonNullable<MutationResolvers["createUser"]> = async (
+export const createUser: NonNullable<MutationResolvers['createUser']> = async (
   _parent,
   arg,
   ctx

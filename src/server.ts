@@ -7,6 +7,7 @@ import { logger } from "./logger";
 
 export interface ServerContext {
   logger: typeof logger;
+  token: string | undefined;
   connectConfig: {
     headers: Record<typeof SESSION_KEY, string>;
   };
@@ -19,6 +20,7 @@ const yoga = createYoga({
     const token = getToken(request);
     const contextLogger = logger.child({ token });
     return {
+      token: token ?? undefined,
       logger: contextLogger,
       connectConfig: {
         headers: {

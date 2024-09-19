@@ -1,3 +1,12 @@
+input AuthenticateWithGoogleCodePayload {
+  code: String!
+}
+
+input AuthenticateWithPasswordPayload {
+  email: String!
+  password: String!
+}
+
 input CreateUserPayload {
   email: String!
   familyName: String
@@ -17,11 +26,19 @@ interface GraphError {
   message: String!
 }
 
+type InvalidCredentials implements GraphError {
+  code: Int!
+  message: String!
+}
+
 type Mutation {
+  authenticateWithGoogleCode(payload: AuthenticateWithGoogleCodePayload!): UserSessionResult!
+  authenticateWithPassword(payload: AuthenticateWithPasswordPayload!): UserSessionResult!
   createUser(payload: CreateUserPayload!): CreateUserResult!
 }
 
 type Query {
+  me: UserResult!
   userById(id: ID!): UserResult!
 }
 
@@ -48,3 +65,10 @@ type UserNotFound implements GraphError {
 }
 
 union UserResult = UnknownError | User | UserNotFound
+
+type UserSession {
+  expiresAt: String!
+  token: String!
+}
+
+union UserSessionResult = InvalidCredentials | UnknownError | UserNotFound | UserSession

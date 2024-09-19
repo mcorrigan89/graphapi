@@ -277,6 +277,80 @@ export class CreateUserResponse extends Message<CreateUserResponse> {
 }
 
 /**
+ * @generated from message serviceapis.identity.v1.GetUserBySessionTokenRequest
+ */
+export class GetUserBySessionTokenRequest extends Message<GetUserBySessionTokenRequest> {
+  /**
+   * @generated from field: string token = 1;
+   */
+  token = "";
+
+  constructor(data?: PartialMessage<GetUserBySessionTokenRequest>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "serviceapis.identity.v1.GetUserBySessionTokenRequest";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "token", kind: "scalar", T: 9 /* ScalarType.STRING */ },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserBySessionTokenRequest {
+    return new GetUserBySessionTokenRequest().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserBySessionTokenRequest {
+    return new GetUserBySessionTokenRequest().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserBySessionTokenRequest {
+    return new GetUserBySessionTokenRequest().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserBySessionTokenRequest | PlainMessage<GetUserBySessionTokenRequest> | undefined, b: GetUserBySessionTokenRequest | PlainMessage<GetUserBySessionTokenRequest> | undefined): boolean {
+    return proto3.util.equals(GetUserBySessionTokenRequest, a, b);
+  }
+}
+
+/**
+ * @generated from message serviceapis.identity.v1.GetUserBySessionTokenResponse
+ */
+export class GetUserBySessionTokenResponse extends Message<GetUserBySessionTokenResponse> {
+  /**
+   * @generated from field: serviceapis.identity.v1.User user = 1;
+   */
+  user?: User;
+
+  constructor(data?: PartialMessage<GetUserBySessionTokenResponse>) {
+    super();
+    proto3.util.initPartial(data, this);
+  }
+
+  static readonly runtime: typeof proto3 = proto3;
+  static readonly typeName = "serviceapis.identity.v1.GetUserBySessionTokenResponse";
+  static readonly fields: FieldList = proto3.util.newFieldList(() => [
+    { no: 1, name: "user", kind: "message", T: User },
+  ]);
+
+  static fromBinary(bytes: Uint8Array, options?: Partial<BinaryReadOptions>): GetUserBySessionTokenResponse {
+    return new GetUserBySessionTokenResponse().fromBinary(bytes, options);
+  }
+
+  static fromJson(jsonValue: JsonValue, options?: Partial<JsonReadOptions>): GetUserBySessionTokenResponse {
+    return new GetUserBySessionTokenResponse().fromJson(jsonValue, options);
+  }
+
+  static fromJsonString(jsonString: string, options?: Partial<JsonReadOptions>): GetUserBySessionTokenResponse {
+    return new GetUserBySessionTokenResponse().fromJsonString(jsonString, options);
+  }
+
+  static equals(a: GetUserBySessionTokenResponse | PlainMessage<GetUserBySessionTokenResponse> | undefined, b: GetUserBySessionTokenResponse | PlainMessage<GetUserBySessionTokenResponse> | undefined): boolean {
+    return proto3.util.equals(GetUserBySessionTokenResponse, a, b);
+  }
+}
+
+/**
  * @generated from message serviceapis.identity.v1.AuthenticateWithGoogleCodeRequest
  */
 export class AuthenticateWithGoogleCodeRequest extends Message<AuthenticateWithGoogleCodeRequest> {

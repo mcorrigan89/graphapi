@@ -3,7 +3,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { AuthenticateWithGoogleCodeRequest, AuthenticateWithGoogleCodeResponse, AuthenticateWithPasswordRequest, AuthenticateWithPasswordResponse, CreateUserRequest, CreateUserResponse, GetUserByIdRequest, GetUserByIdResponse } from "./identity_pb.js";
+import { AuthenticateWithGoogleCodeRequest, AuthenticateWithGoogleCodeResponse, AuthenticateWithPasswordRequest, AuthenticateWithPasswordResponse, CreateUserRequest, CreateUserResponse, GetUserByIdRequest, GetUserByIdResponse, GetUserBySessionTokenRequest, GetUserBySessionTokenResponse } from "./identity_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -19,6 +19,15 @@ export const IdentityService = {
       name: "GetUserById",
       I: GetUserByIdRequest,
       O: GetUserByIdResponse,
+      kind: MethodKind.Unary,
+    },
+    /**
+     * @generated from rpc serviceapis.identity.v1.IdentityService.GetUserBySessionToken
+     */
+    getUserBySessionToken: {
+      name: "GetUserBySessionToken",
+      I: GetUserBySessionTokenRequest,
+      O: GetUserBySessionTokenResponse,
       kind: MethodKind.Unary,
     },
     /**

@@ -17,6 +17,15 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AuthenticateWithGoogleCodePayload = {
+  code: Scalars['String']['input'];
+};
+
+export type AuthenticateWithPasswordPayload = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
 export type CreateUserPayload = {
   email: Scalars['String']['input'];
   familyName?: InputMaybe<Scalars['String']['input']>;
@@ -37,9 +46,27 @@ export type GraphError = {
   message: Scalars['String']['output'];
 };
 
+export type InvalidCredentials = GraphError & {
+  __typename?: 'InvalidCredentials';
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  authenticateWithGoogleCode: UserSessionResult;
+  authenticateWithPassword: UserSessionResult;
   createUser: CreateUserResult;
+};
+
+
+export type MutationauthenticateWithGoogleCodeArgs = {
+  payload: AuthenticateWithGoogleCodePayload;
+};
+
+
+export type MutationauthenticateWithPasswordArgs = {
+  payload: AuthenticateWithPasswordPayload;
 };
 
 
@@ -49,6 +76,7 @@ export type MutationcreateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  me: UserResult;
   userById: UserResult;
 };
 
@@ -84,6 +112,14 @@ export type UserNotFound = GraphError & {
 };
 
 export type UserResult = UnknownError | User | UserNotFound;
+
+export type UserSession = {
+  __typename?: 'UserSession';
+  expiresAt: Scalars['String']['output'];
+  token: Scalars['String']['output'];
+};
+
+export type UserSessionResult = InvalidCredentials | UnknownError | UserNotFound | UserSession;
 
 
 
@@ -156,21 +192,25 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
   CreateUserResult: ( EmailUnavailable & { __typename: 'EmailUnavailable' } ) | ( UnknownError & { __typename: 'UnknownError' } ) | ( User & { __typename: 'User' } ) | ( UserAlreadyCreated & { __typename: 'UserAlreadyCreated' } );
   UserResult: ( UnknownError & { __typename: 'UnknownError' } ) | ( User & { __typename: 'User' } ) | ( UserNotFound & { __typename: 'UserNotFound' } );
+  UserSessionResult: ( InvalidCredentials & { __typename: 'InvalidCredentials' } ) | ( UnknownError & { __typename: 'UnknownError' } ) | ( UserNotFound & { __typename: 'UserNotFound' } ) | ( UserSession & { __typename: 'UserSession' } );
 };
 
 /** Mapping of interface types */
 export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
-  GraphError: ( EmailUnavailable & { __typename: 'EmailUnavailable' } ) | ( UnknownError & { __typename: 'UnknownError' } ) | ( UserAlreadyCreated & { __typename: 'UserAlreadyCreated' } ) | ( UserNotFound & { __typename: 'UserNotFound' } );
+  GraphError: ( EmailUnavailable & { __typename: 'EmailUnavailable' } ) | ( InvalidCredentials & { __typename: 'InvalidCredentials' } ) | ( UnknownError & { __typename: 'UnknownError' } ) | ( UserAlreadyCreated & { __typename: 'UserAlreadyCreated' } ) | ( UserNotFound & { __typename: 'UserNotFound' } );
 };
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  CreateUserPayload: CreateUserPayload;
+  AuthenticateWithGoogleCodePayload: AuthenticateWithGoogleCodePayload;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  AuthenticateWithPasswordPayload: AuthenticateWithPasswordPayload;
+  CreateUserPayload: CreateUserPayload;
   CreateUserResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['CreateUserResult']>;
   EmailUnavailable: ResolverTypeWrapper<EmailUnavailable>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   GraphError: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['GraphError']>;
+  InvalidCredentials: ResolverTypeWrapper<InvalidCredentials>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -179,17 +219,22 @@ export type ResolversTypes = {
   UserAlreadyCreated: ResolverTypeWrapper<UserAlreadyCreated>;
   UserNotFound: ResolverTypeWrapper<UserNotFound>;
   UserResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['UserResult']>;
+  UserSession: ResolverTypeWrapper<UserSession>;
+  UserSessionResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['UserSessionResult']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  CreateUserPayload: CreateUserPayload;
+  AuthenticateWithGoogleCodePayload: AuthenticateWithGoogleCodePayload;
   String: Scalars['String']['output'];
+  AuthenticateWithPasswordPayload: AuthenticateWithPasswordPayload;
+  CreateUserPayload: CreateUserPayload;
   CreateUserResult: ResolversUnionTypes<ResolversParentTypes>['CreateUserResult'];
   EmailUnavailable: EmailUnavailable;
   Int: Scalars['Int']['output'];
   GraphError: ResolversInterfaceTypes<ResolversParentTypes>['GraphError'];
+  InvalidCredentials: InvalidCredentials;
   Mutation: {};
   Query: {};
   ID: Scalars['ID']['output'];
@@ -198,6 +243,8 @@ export type ResolversParentTypes = {
   UserAlreadyCreated: UserAlreadyCreated;
   UserNotFound: UserNotFound;
   UserResult: ResolversUnionTypes<ResolversParentTypes>['UserResult'];
+  UserSession: UserSession;
+  UserSessionResult: ResolversUnionTypes<ResolversParentTypes>['UserSessionResult'];
   Boolean: Scalars['Boolean']['output'];
 };
 
@@ -212,16 +259,25 @@ export type EmailUnavailableResolvers<ContextType = ServerContext, ParentType ex
 };
 
 export type GraphErrorResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['GraphError'] = ResolversParentTypes['GraphError']> = {
-  __resolveType?: TypeResolveFn<'EmailUnavailable' | 'UnknownError' | 'UserAlreadyCreated' | 'UserNotFound', ParentType, ContextType>;
+  __resolveType?: TypeResolveFn<'EmailUnavailable' | 'InvalidCredentials' | 'UnknownError' | 'UserAlreadyCreated' | 'UserNotFound', ParentType, ContextType>;
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
+export type InvalidCredentialsResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['InvalidCredentials'] = ResolversParentTypes['InvalidCredentials']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  authenticateWithGoogleCode?: Resolver<ResolversTypes['UserSessionResult'], ParentType, ContextType, RequireFields<MutationauthenticateWithGoogleCodeArgs, 'payload'>>;
+  authenticateWithPassword?: Resolver<ResolversTypes['UserSessionResult'], ParentType, ContextType, RequireFields<MutationauthenticateWithPasswordArgs, 'payload'>>;
   createUser?: Resolver<ResolversTypes['CreateUserResult'], ParentType, ContextType, RequireFields<MutationcreateUserArgs, 'payload'>>;
 };
 
 export type QueryResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  me?: Resolver<ResolversTypes['UserResult'], ParentType, ContextType>;
   userById?: Resolver<ResolversTypes['UserResult'], ParentType, ContextType, RequireFields<QueryuserByIdArgs, 'id'>>;
 };
 
@@ -255,10 +311,21 @@ export type UserResultResolvers<ContextType = ServerContext, ParentType extends 
   __resolveType?: TypeResolveFn<'UnknownError' | 'User' | 'UserNotFound', ParentType, ContextType>;
 };
 
+export type UserSessionResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['UserSession'] = ResolversParentTypes['UserSession']> = {
+  expiresAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserSessionResultResolvers<ContextType = ServerContext, ParentType extends ResolversParentTypes['UserSessionResult'] = ResolversParentTypes['UserSessionResult']> = {
+  __resolveType?: TypeResolveFn<'InvalidCredentials' | 'UnknownError' | 'UserNotFound' | 'UserSession', ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = ServerContext> = {
   CreateUserResult?: CreateUserResultResolvers<ContextType>;
   EmailUnavailable?: EmailUnavailableResolvers<ContextType>;
   GraphError?: GraphErrorResolvers<ContextType>;
+  InvalidCredentials?: InvalidCredentialsResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   UnknownError?: UnknownErrorResolvers<ContextType>;
@@ -266,5 +333,7 @@ export type Resolvers<ContextType = ServerContext> = {
   UserAlreadyCreated?: UserAlreadyCreatedResolvers<ContextType>;
   UserNotFound?: UserNotFoundResolvers<ContextType>;
   UserResult?: UserResultResolvers<ContextType>;
+  UserSession?: UserSessionResolvers<ContextType>;
+  UserSessionResult?: UserSessionResultResolvers<ContextType>;
 };
 

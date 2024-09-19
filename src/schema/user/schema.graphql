@@ -12,7 +12,24 @@ type User {
 
 union UserResult = User | UserNotFound | UnknownError
 
+type InvalidCredentials implements GraphError {
+  message: String!
+  code: Int!
+}
+
+type UserSession {
+  token: String!
+  expiresAt: String!
+}
+
+union UserSessionResult =
+    UserSession
+  | UserNotFound
+  | InvalidCredentials
+  | UnknownError
+
 extend type Query {
+  me: UserResult!
   userById(id: ID!): UserResult!
 }
 
@@ -39,6 +56,21 @@ union CreateUserResult =
   | UserAlreadyCreated
   | UnknownError
 
+input AuthenticateWithPasswordPayload {
+  email: String!
+  password: String!
+}
+
+input AuthenticateWithGoogleCodePayload {
+  code: String!
+}
+
 extend type Mutation {
   createUser(payload: CreateUserPayload!): CreateUserResult!
+  authenticateWithPassword(
+    payload: AuthenticateWithPasswordPayload!
+  ): UserSessionResult!
+  authenticateWithGoogleCode(
+    payload: AuthenticateWithGoogleCodePayload!
+  ): UserSessionResult!
 }

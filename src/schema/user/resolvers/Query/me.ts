@@ -1,24 +1,23 @@
-import { Code, ConnectError } from "@connectrpc/connect";
-import { identityClient } from "../../../../api/identity";
+import { identityClient } from "@/api/identity";
 import type { QueryResolvers } from "./../../../types.generated";
-import { SESSION_KEY } from "../../../../session";
-export const userById: NonNullable<QueryResolvers['userById']> = async (
+import { Code, ConnectError } from "@connectrpc/connect";
+export const me: NonNullable<QueryResolvers["me"]> = async (
   _parent,
-  arg,
+  _arg,
   ctx
 ) => {
-  ctx.logger.info("Getting User by ID", { id: arg.id });
+  ctx.logger.info("Getting Current User", { token: ctx.token });
   try {
-    const response = await identityClient.getUserById(
+    const response = await identityClient.getUserBySessionToken(
       {
-        id: arg.id,
+        token: ctx.token,
       },
       ctx.connectConfig
     );
 
     if (!response.user) {
-      ctx.logger.warn("Error getting User by ID");
-      throw new Error("Error getting User by ID");
+      ctx.logger.warn("Error getting current user");
+      throw new Error("Error getting current user");
     }
 
     return {
@@ -32,7 +31,7 @@ export const userById: NonNullable<QueryResolvers['userById']> = async (
     if (e instanceof ConnectError) {
       switch (e.code) {
         case Code.NotFound:
-          ctx.logger.warn("User not found", { id: arg.id });
+          ctx.logger.warn("User not found", { token: ctx.token });
           return {
             __typename: "UserNotFound",
             code: 404,

@@ -1,5 +1,7 @@
-import { server } from "./server";
+import { env } from "@/env";
+import { server } from "@/server";
+import { logger } from "./logger";
 
-server.listen(4001, () => {
-  console.log("Server is running on http://localhost:4001");
+server.listen(env.PORT, () => {
+  logger.info(`Server is running on http://localhost:${env.PORT}`);
 });

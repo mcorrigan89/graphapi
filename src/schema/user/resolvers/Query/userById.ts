@@ -7,15 +7,17 @@ export const userById: NonNullable<QueryResolvers["userById"]> = async (
   arg,
   ctx
 ) => {
+  ctx.logger.info("Getting User by ID", { id: arg.id });
   try {
     const response = await identityClient.getUserById(
       {
         id: arg.id,
       },
-      ctx
+      ctx.connectConfig
     );
 
     if (!response.user) {
+      ctx.logger.warn("Error getting User by ID");
       throw new Error("Error getting User by ID");
     }
 
@@ -30,12 +32,14 @@ export const userById: NonNullable<QueryResolvers["userById"]> = async (
     if (e instanceof ConnectError) {
       switch (e.code) {
         case Code.NotFound:
+          ctx.logger.warn("User not found", { id: arg.id });
           return {
             __typename: "UserNotFound",
             code: 404,
             message: "User not found",
           };
         default:
+          ctx.logger.error(e);
           return {
             __typename: "UnknownError",
             code: 500,
@@ -43,6 +47,7 @@ export const userById: NonNullable<QueryResolvers["userById"]> = async (
           };
       }
     } else {
+      ctx.logger.error(e);
       throw e;
     }
   }

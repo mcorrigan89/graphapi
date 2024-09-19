@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   generates: {
     "src/schema": defineConfig({
       typesPluginsConfig: {
-        contextType: "../server#ServerContext",
+        contextType: "@/server#ServerContext",
       },
     }),
   },

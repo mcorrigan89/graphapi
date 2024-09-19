@@ -1,0 +1,21 @@
+input CreateUserPayload {
+  email: String!
+  familyName: String
+  givenName: String
+  password: String!
+}
+
+type Mutation {
+  createUser(payload: CreateUserPayload!): User
+}
+
+type Query {
+  userById(id: ID!): User
+}
+
+type User {
+  email: String!
+  familyName: String
+  givenName: String
+  id: ID!
+}

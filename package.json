@@ -1,0 +1,23 @@
+{
+  "name": "graphapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "codegen": "graphql-codegen"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^16.9.0",
+    "graphql-yoga": "^5.7.0"
+  },
+  "devDependencies": {
+    "@eddeee888/gcg-typescript-resolver-files": "^0.10.4",
+    "@graphql-codegen/cli": "^5.0.2",
+    "@types/node": "^22.5.5",
+    "tsx": "^4.19.1"
+  }
+}

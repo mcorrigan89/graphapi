@@ -5,7 +5,7 @@ input CreateUserPayload {
   password: String!
 }
 
-union CreateUserResult = EmailUnavailable | UnknownError | User
+union CreateUserResult = EmailUnavailable | UnknownError | User | UserAlreadyCreated
 
 type EmailUnavailable implements GraphError {
   code: Int!
@@ -35,6 +35,11 @@ type User {
   familyName: String
   givenName: String
   id: ID!
+}
+
+type UserAlreadyCreated implements GraphError {
+  code: Int!
+  message: String!
 }
 
 type UserNotFound implements GraphError {

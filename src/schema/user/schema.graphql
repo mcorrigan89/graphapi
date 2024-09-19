@@ -28,7 +28,16 @@ type EmailUnavailable implements GraphError {
   code: Int!
 }
 
-union CreateUserResult = User | EmailUnavailable | UnknownError
+type UserAlreadyCreated implements GraphError {
+  message: String!
+  code: Int!
+}
+
+union CreateUserResult =
+    User
+  | EmailUnavailable
+  | UserAlreadyCreated
+  | UnknownError
 
 extend type Mutation {
   createUser(payload: CreateUserPayload!): CreateUserResult!

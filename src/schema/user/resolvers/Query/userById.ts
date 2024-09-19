@@ -1,15 +1,19 @@
 import { Code, ConnectError } from "@connectrpc/connect";
 import { identityClient } from "../../../../api/identity";
 import type { QueryResolvers } from "./../../../types.generated";
-export const userById: NonNullable<QueryResolvers["userById"]> = async (
+import { SESSION_KEY } from "../../../../session";
+export const userById: NonNullable<QueryResolvers['userById']> = async (
   _parent,
   arg,
-  _ctx
+  ctx
 ) => {
   try {
-    const response = await identityClient.getUserById({
-      id: arg.id,
-    });
+    const response = await identityClient.getUserById(
+      {
+        id: arg.id,
+      },
+      ctx
+    );
 
     if (!response.user) {
       throw new Error("Error getting User by ID");

@@ -4,15 +4,18 @@ import type { MutationResolvers } from "./../../../types.generated";
 export const createUser: NonNullable<MutationResolvers["createUser"]> = async (
   _parent,
   arg,
-  _ctx
+  ctx
 ) => {
   try {
-    const response = await identityClient.createUser({
-      givenName: arg.payload.givenName ?? undefined,
-      familyName: arg.payload.familyName ?? undefined,
-      email: arg.payload.email,
-      password: arg.payload.password,
-    });
+    const response = await identityClient.createUser(
+      {
+        givenName: arg.payload.givenName ?? undefined,
+        familyName: arg.payload.familyName ?? undefined,
+        email: arg.payload.email,
+        password: arg.payload.password,
+      },
+      ctx
+    );
 
     if (!response.user) {
       throw new Error("Error Creating User");
@@ -27,18 +30,25 @@ export const createUser: NonNullable<MutationResolvers["createUser"]> = async (
     };
   } catch (e) {
     if (e instanceof ConnectError) {
-      if (e.code === Code.AlreadyExists) {
-        return {
-          __typename: "EmailUnavailable",
-          code: 409,
-          message: "Email not available",
-        };
-      } else {
-        return {
-          __typename: "UnknownError",
-          code: 500,
-          message: e.message,
-        };
+      switch (e.code) {
+        case Code.AlreadyExists:
+          return {
+            __typename: "EmailUnavailable",
+            code: 409,
+            message: "Email not available",
+          };
+        case Code.Unavailable:
+          return {
+            __typename: "UserAlreadyCreated",
+            code: 409,
+            message: "User already created, please login",
+          };
+        default:
+          return {
+            __typename: "UnknownError",
+            code: 500,
+            message: e.message,
+          };
       }
     } else {
       throw e;

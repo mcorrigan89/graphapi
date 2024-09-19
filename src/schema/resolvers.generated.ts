@@ -5,6 +5,7 @@ import    { createUser as Mutation_createUser } from './user/resolvers/Mutation/
 import    { EmailUnavailable } from './user/resolvers/EmailUnavailable';
 import    { UnknownError } from './base/resolvers/UnknownError';
 import    { User } from './user/resolvers/User';
+import    { UserAlreadyCreated } from './user/resolvers/UserAlreadyCreated';
 import    { UserNotFound } from './user/resolvers/UserNotFound';
     export const resolvers: Resolvers = {
       Query: { userById: Query_userById },
@@ -13,5 +14,6 @@ import    { UserNotFound } from './user/resolvers/UserNotFound';
       EmailUnavailable: EmailUnavailable,
 UnknownError: UnknownError,
 User: User,
+UserAlreadyCreated: UserAlreadyCreated,
 UserNotFound: UserNotFound
     }

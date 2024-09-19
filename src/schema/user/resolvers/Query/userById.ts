@@ -2,7 +2,7 @@ import { Code, ConnectError } from "@connectrpc/connect";
 import { identityClient } from "../../../../api/identity";
 import type { QueryResolvers } from "./../../../types.generated";
 import { SESSION_KEY } from "../../../../session";
-export const userById: NonNullable<QueryResolvers['userById']> = async (
+export const userById: NonNullable<QueryResolvers["userById"]> = async (
   _parent,
   arg,
   ctx
@@ -28,18 +28,19 @@ export const userById: NonNullable<QueryResolvers['userById']> = async (
     };
   } catch (e) {
     if (e instanceof ConnectError) {
-      if (e.code === Code.NotFound) {
-        return {
-          __typename: "UserNotFound",
-          code: 404,
-          message: "User not found",
-        };
-      } else {
-        return {
-          __typename: "UnknownError",
-          code: 500,
-          message: e.message,
-        };
+      switch (e.code) {
+        case Code.NotFound:
+          return {
+            __typename: "UserNotFound",
+            code: 404,
+            message: "User not found",
+          };
+        default:
+          return {
+            __typename: "UnknownError",
+            code: 500,
+            message: e.message,
+          };
       }
     } else {
       throw e;

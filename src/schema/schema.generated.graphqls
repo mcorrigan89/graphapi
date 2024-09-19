@@ -5,12 +5,29 @@ input CreateUserPayload {
   password: String!
 }
 
+union CreateUserResult = EmailUnavailable | UnknownError | User
+
+type EmailUnavailable implements GraphError {
+  code: Int!
+  message: String!
+}
+
+interface GraphError {
+  code: Int!
+  message: String!
+}
+
 type Mutation {
-  createUser(payload: CreateUserPayload!): User
+  createUser(payload: CreateUserPayload!): CreateUserResult!
 }
 
 type Query {
-  userById(id: ID!): User
+  userById(id: ID!): UserResult!
+}
+
+type UnknownError implements GraphError {
+  code: Int!
+  message: String!
 }
 
 type User {
@@ -19,3 +36,10 @@ type User {
   givenName: String
   id: ID!
 }
+
+type UserNotFound implements GraphError {
+  code: Int!
+  message: String!
+}
+
+union UserResult = UnknownError | User | UserNotFound

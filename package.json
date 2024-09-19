@@ -5,12 +5,19 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch --clear-screen=false src/index.ts",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "apis": "buf lint && buf generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@bufbuild/buf": "^1.42.0",
+    "@bufbuild/protobuf": "^1.0.0",
+    "@bufbuild/protoc-gen-es": "^1.0.0",
+    "@connectrpc/connect": "^1.0.0",
+    "@connectrpc/connect-node": "^1.5.0",
+    "@connectrpc/protoc-gen-connect-es": "^1.0.0",
     "graphql": "^16.9.0",
     "graphql-yoga": "^5.7.0"
   },

@@ -1,2 +1,12 @@
+interface GraphError {
+  message: String!
+  code: Int!
+}
+
+type UnknownError implements GraphError {
+  message: String!
+  code: Int!
+}
+
 type Query
 type Mutation

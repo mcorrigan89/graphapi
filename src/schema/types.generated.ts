@@ -23,9 +23,22 @@ export type CreateUserPayload = {
   password: Scalars['String']['input'];
 };
 
+export type CreateUserResult = EmailUnavailable | UnknownError | User;
+
+export type EmailUnavailable = GraphError & {
+  __typename?: 'EmailUnavailable';
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+};
+
+export type GraphError = {
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser?: Maybe<User>;
+  createUser: CreateUserResult;
 };
 
 
@@ -35,12 +48,18 @@ export type MutationcreateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  userById?: Maybe<User>;
+  userById: UserResult;
 };
 
 
 export type QueryuserByIdArgs = {
   id: Scalars['ID']['input'];
+};
+
+export type UnknownError = GraphError & {
+  __typename?: 'UnknownError';
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
 };
 
 export type User = {
@@ -50,6 +69,14 @@ export type User = {
   givenName?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
 };
+
+export type UserNotFound = GraphError & {
+  __typename?: 'UserNotFound';
+  code: Scalars['Int']['output'];
+  message: Scalars['String']['output'];
+};
+
+export type UserResult = UnknownError | User | UserNotFound;
 
 
 
@@ -118,16 +145,32 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
+/** Mapping of union types */
+export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
+  CreateUserResult: ( EmailUnavailable & { __typename: 'EmailUnavailable' } ) | ( UnknownError & { __typename: 'UnknownError' } ) | ( User & { __typename: 'User' } );
+  UserResult: ( UnknownError & { __typename: 'UnknownError' } ) | ( User & { __typename: 'User' } ) | ( UserNotFound & { __typename: 'UserNotFound' } );
+};
 
+/** Mapping of interface types */
+export type ResolversInterfaceTypes<_RefType extends Record<string, unknown>> = {
+  GraphError: ( EmailUnavailable & { __typename: 'EmailUnavailable' } ) | ( UnknownError & { __typename: 'UnknownError' } ) | ( UserNotFound & { __typename: 'UserNotFound' } );
+};
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   CreateUserPayload: CreateUserPayload;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  CreateUserResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['CreateUserResult']>;
+  EmailUnavailable: ResolverTypeWrapper<EmailUnavailable>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
+  GraphError: ResolverTypeWrapper<ResolversInterfaceTypes<ResolversTypes>['GraphError']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  UnknownError: ResolverTypeWrapper<UnknownError>;
   User: ResolverTypeWrapper<User>;
+  UserNotFound: ResolverTypeWrapper<UserNotFound>;
+  UserResult: ResolverTypeWrapper<ResolversUnionTypes<ResolversTypes>['UserResult']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
 };
 
@@ -135,19 +178,48 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   CreateUserPayload: CreateUserPayload;
   String: Scalars['String']['output'];
+  CreateUserResult: ResolversUnionTypes<ResolversParentTypes>['CreateUserResult'];
+  EmailUnavailable: EmailUnavailable;
+  Int: Scalars['Int']['output'];
+  GraphError: ResolversInterfaceTypes<ResolversParentTypes>['GraphError'];
   Mutation: {};
   Query: {};
   ID: Scalars['ID']['output'];
+  UnknownError: UnknownError;
   User: User;
+  UserNotFound: UserNotFound;
+  UserResult: ResolversUnionTypes<ResolversParentTypes>['UserResult'];
   Boolean: Scalars['Boolean']['output'];
 };
 
+export type CreateUserResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateUserResult'] = ResolversParentTypes['CreateUserResult']> = {
+  __resolveType?: TypeResolveFn<'EmailUnavailable' | 'UnknownError' | 'User', ParentType, ContextType>;
+};
+
+export type EmailUnavailableResolvers<ContextType = any, ParentType extends ResolversParentTypes['EmailUnavailable'] = ResolversParentTypes['EmailUnavailable']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GraphErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['GraphError'] = ResolversParentTypes['GraphError']> = {
+  __resolveType?: TypeResolveFn<'EmailUnavailable' | 'UnknownError' | 'UserNotFound', ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationcreateUserArgs, 'payload'>>;
+  createUser?: Resolver<ResolversTypes['CreateUserResult'], ParentType, ContextType, RequireFields<MutationcreateUserArgs, 'payload'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  userById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryuserByIdArgs, 'id'>>;
+  userById?: Resolver<ResolversTypes['UserResult'], ParentType, ContextType, RequireFields<QueryuserByIdArgs, 'id'>>;
+};
+
+export type UnknownErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['UnknownError'] = ResolversParentTypes['UnknownError']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -158,9 +230,25 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserNotFoundResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserNotFound'] = ResolversParentTypes['UserNotFound']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserResult'] = ResolversParentTypes['UserResult']> = {
+  __resolveType?: TypeResolveFn<'UnknownError' | 'User' | 'UserNotFound', ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
+  CreateUserResult?: CreateUserResultResolvers<ContextType>;
+  EmailUnavailable?: EmailUnavailableResolvers<ContextType>;
+  GraphError?: GraphErrorResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  UnknownError?: UnknownErrorResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UserNotFound?: UserNotFoundResolvers<ContextType>;
+  UserResult?: UserResultResolvers<ContextType>;
 };
 

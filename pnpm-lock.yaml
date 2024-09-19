@@ -5,6 +5,24 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@bufbuild/buf':
+    specifier: ^1.42.0
+    version: 1.42.0
+  '@bufbuild/protobuf':
+    specifier: ^1.0.0
+    version: 1.10.0
+  '@bufbuild/protoc-gen-es':
+    specifier: ^1.0.0
+    version: 1.10.0(@bufbuild/protobuf@1.10.0)
+  '@connectrpc/connect':
+    specifier: ^1.0.0
+    version: 1.5.0(@bufbuild/protobuf@1.10.0)
+  '@connectrpc/connect-node':
+    specifier: ^1.5.0
+    version: 1.5.0(@bufbuild/protobuf@1.10.0)(@connectrpc/connect@1.5.0)
+  '@connectrpc/protoc-gen-connect-es':
+    specifier: ^1.0.0
+    version: 1.5.0(@bufbuild/protoc-gen-es@1.10.0)(@connectrpc/connect@1.5.0)
   graphql:
     specifier: ^16.9.0
     version: 16.9.0
@@ -18,7 +36,7 @@ devDependencies:
     version: 0.10.4(graphql@16.9.0)
   '@graphql-codegen/cli':
     specifier: ^5.0.2
-    version: 5.0.2(@types/node@22.5.5)(graphql@16.9.0)
+    version: 5.0.2(@types/node@22.5.5)(graphql@16.9.0)(typescript@4.5.2)
   '@types/node':
     specifier: ^22.5.5
     version: 22.5.5
@@ -627,6 +645,145 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
+  /@bufbuild/buf-darwin-arm64@1.42.0:
+    resolution: {integrity: sha512-dbHui2HWVXpzpos/MN7msybJZ/E0uu9WeQ2zyer623U/wtgrm8Mt/+6qtycR+qQM5a7aUpyy28GIV5AuB/kyww==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@bufbuild/buf-darwin-x64@1.42.0:
+    resolution: {integrity: sha512-qnWjWEWLoC/5meyTvNX7l/px1bJOF8DtnO+HHzlY/bYE1sUl326OXWQbpHyr+R/ftB/A5RYpxkuH9ypi3t+Dag==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@bufbuild/buf-linux-aarch64@1.42.0:
+    resolution: {integrity: sha512-j7135YYRJaCKNF/6p0FhqG+6VlitiL5dTRU836/kqYdAY5jaZo4jEpGZ7KpxOOshFgs0BeR/fwHYUJUX0U4u/Q==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@bufbuild/buf-linux-x64@1.42.0:
+    resolution: {integrity: sha512-h7oPu6uczTJQnnXIfHy/K/VgbI+WMziOc+1+WADr6xBqYZpXjeetCuVF/6Qo7Hr1jOdzQPh1gh5A7Z3TJUMZRA==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@bufbuild/buf-win32-arm64@1.42.0:
+    resolution: {integrity: sha512-k4vA66wRECxUkPgqJDsW7jS8QtgAqNDC40vSiHgEq23nyOBFo9DP7FDV2rWAmY6cxhBm318TFTEgGvFeolm+yg==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@bufbuild/buf-win32-x64@1.42.0:
+    resolution: {integrity: sha512-fruOTCeO21juCTtwOke/rNVfmau3LMcy5goHfbVgJ2NhMk2HPu1/JA5v8K2N7qOKvta16QcxY00hWFiqs09Qcg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@bufbuild/buf@1.42.0:
+    resolution: {integrity: sha512-k+Y4Sy9z2O9cOIA7q56WzAGC2xnIvxPfGb3X1+XsbeC0P/c7IW2/aWL324ppER538zCqqMtOwhp0vgljT4mthA==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      '@bufbuild/buf-darwin-arm64': 1.42.0
+      '@bufbuild/buf-darwin-x64': 1.42.0
+      '@bufbuild/buf-linux-aarch64': 1.42.0
+      '@bufbuild/buf-linux-x64': 1.42.0
+      '@bufbuild/buf-win32-arm64': 1.42.0
+      '@bufbuild/buf-win32-x64': 1.42.0
+    dev: false
+
+  /@bufbuild/protobuf@1.10.0:
+    resolution: {integrity: sha512-QDdVFLoN93Zjg36NoQPZfsVH9tZew7wKDKyV5qRdj8ntT4wQCOradQjRaTdwMhWUYsgKsvCINKKm87FdEk96Ag==}
+    dev: false
+
+  /@bufbuild/protoc-gen-es@1.10.0(@bufbuild/protobuf@1.10.0):
+    resolution: {integrity: sha512-zBYBsVT/ul4uZb6F+kD7/k4sWNHVVbEPfJwKi0FDr+9VJo8MKIofI6pkr5ksBLr4fi/74r+e/75Xi/0clL5dXg==}
+    engines: {node: '>=14'}
+    hasBin: true
+    peerDependencies:
+      '@bufbuild/protobuf': 1.10.0
+    peerDependenciesMeta:
+      '@bufbuild/protobuf':
+        optional: true
+    dependencies:
+      '@bufbuild/protobuf': 1.10.0
+      '@bufbuild/protoplugin': 1.10.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@bufbuild/protoplugin@1.10.0:
+    resolution: {integrity: sha512-u6NE4vL0lw1+EK4/PiE/SQB7fKO4LRJNTEScIXVOi2x88K/c8WKc/k0KyEaA0asVBMpwekJQZGnRyj04ZtN5Gg==}
+    dependencies:
+      '@bufbuild/protobuf': 1.10.0
+      '@typescript/vfs': 1.6.0(typescript@4.5.2)
+      typescript: 4.5.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@connectrpc/connect-node@1.5.0(@bufbuild/protobuf@1.10.0)(@connectrpc/connect@1.5.0):
+    resolution: {integrity: sha512-go27+V6c6/YOGMXUs7d1NbXnGpMJl5fKYfMtbBKDs9azZTg/tW9q5S0iw9upZs43bOPV8YnJAWmTW9n1Te9NAw==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@bufbuild/protobuf': ^1.10.0
+      '@connectrpc/connect': 1.5.0
+    dependencies:
+      '@bufbuild/protobuf': 1.10.0
+      '@connectrpc/connect': 1.5.0(@bufbuild/protobuf@1.10.0)
+      undici: 5.28.4
+    dev: false
+
+  /@connectrpc/connect@1.5.0(@bufbuild/protobuf@1.10.0):
+    resolution: {integrity: sha512-1gGg0M6c2Y3lnr5itis9dNj9r8hbOIuBMqoGSbUy7L7Vjw4MAttjJzJfj9HCDgytGCJkGanYEYI6MQVDijdVQw==}
+    peerDependencies:
+      '@bufbuild/protobuf': ^1.10.0
+    dependencies:
+      '@bufbuild/protobuf': 1.10.0
+    dev: false
+
+  /@connectrpc/protoc-gen-connect-es@1.5.0(@bufbuild/protoc-gen-es@1.10.0)(@connectrpc/connect@1.5.0):
+    resolution: {integrity: sha512-W3FX/mFPEY3rOIiIbxxUnIpQOPeFrwyhNL5m/JGBJ1lh5PAF0FH4WImJsnN9UAJR1HMkwf6RMfKVLuxFqu3KTA==}
+    engines: {node: '>=16.0.0'}
+    hasBin: true
+    peerDependencies:
+      '@bufbuild/protoc-gen-es': ^1.10.0
+      '@connectrpc/connect': 1.5.0
+    peerDependenciesMeta:
+      '@bufbuild/protoc-gen-es':
+        optional: true
+      '@connectrpc/connect':
+        optional: true
+    dependencies:
+      '@bufbuild/protobuf': 1.10.0
+      '@bufbuild/protoc-gen-es': 1.10.0(@bufbuild/protobuf@1.10.0)
+      '@bufbuild/protoplugin': 1.10.0
+      '@connectrpc/connect': 1.5.0(@bufbuild/protobuf@1.10.0)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@eddeee888/gcg-server-config@0.2.2(graphql@16.9.0):
     resolution: {integrity: sha512-/yOw8sZMObfZ5Esu8QD5RkcbBApD+QRP1r/syS2nAiUoZr5Nj05tNi8mQnR90suY4UIjEIO3KfkkN/vXpZ/1fA==}
     dependencies:
@@ -892,6 +1049,11 @@ packages:
     dev: true
     optional: true
 
+  /@fastify/busboy@2.1.1:
+    resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
+    engines: {node: '>=14'}
+    dev: false
+
   /@graphql-codegen/add@5.0.3(graphql@16.9.0):
     resolution: {integrity: sha512-SxXPmramkth8XtBlAHu4H4jYcYXM/o3p01+psU+0NADQowA8jtYkK6MW5rV6T+CxkEaNZItfSmZRPgIuypcqnA==}
     peerDependencies:
@@ -902,7 +1064,7 @@ packages:
       tslib: 2.6.3
     dev: true
 
-  /@graphql-codegen/cli@5.0.2(@types/node@22.5.5)(graphql@16.9.0):
+  /@graphql-codegen/cli@5.0.2(@types/node@22.5.5)(graphql@16.9.0)(typescript@4.5.2):
     resolution: {integrity: sha512-MBIaFqDiLKuO4ojN6xxG9/xL9wmfD3ZjZ7RsPjwQnSHBCUXnEkdKvX+JVpx87Pq29Ycn8wTJUguXnTZ7Di0Mlw==}
     hasBin: true
     peerDependencies:
@@ -930,11 +1092,11 @@ packages:
       '@graphql-tools/utils': 10.5.4(graphql@16.9.0)
       '@whatwg-node/fetch': 0.8.8
       chalk: 4.1.2
-      cosmiconfig: 8.3.6
+      cosmiconfig: 8.3.6(typescript@4.5.2)
       debounce: 1.2.1
       detect-indent: 6.1.0
       graphql: 16.9.0
-      graphql-config: 5.1.2(@types/node@22.5.5)(graphql@16.9.0)
+      graphql-config: 5.1.2(@types/node@22.5.5)(graphql@16.9.0)(typescript@4.5.2)
       inquirer: 8.2.6
       is-glob: 4.0.3
       jiti: 1.21.6
@@ -1637,6 +1799,17 @@ packages:
       '@types/node': 22.5.5
     dev: true
 
+  /@typescript/vfs@1.6.0(typescript@4.5.2):
+    resolution: {integrity: sha512-hvJUjNVeBMp77qPINuUvYXj4FyWeeMMKZkxEATEU3hqBAQ7qdTBCUFT7Sp0Zu0faeEtFf+ldXxMEDr/bk73ISg==}
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      debug: 4.3.7
+      typescript: 4.5.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@whatwg-node/events@0.0.3:
     resolution: {integrity: sha512-IqnKIDWfXBJkvy/k6tzskWTc2NK3LcqHlb+KHGCrjOCH4jfQckRX0NAiIcC/vIqQkzLYw2r2CTSwAxcrtcD6lA==}
     dev: true
@@ -2058,7 +2231,7 @@ packages:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: true
 
-  /cosmiconfig@8.3.6:
+  /cosmiconfig@8.3.6(typescript@4.5.2):
     resolution: {integrity: sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -2071,9 +2244,10 @@ packages:
       js-yaml: 4.1.0
       parse-json: 5.2.0
       path-type: 4.0.0
+      typescript: 4.5.2
     dev: true
 
-  /cosmiconfig@9.0.0:
+  /cosmiconfig@9.0.0(typescript@4.5.2):
     resolution: {integrity: sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -2086,6 +2260,7 @@ packages:
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       parse-json: 5.2.0
+      typescript: 4.5.2
     dev: true
 
   /cross-fetch@3.1.8:
@@ -2120,7 +2295,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.3
-    dev: true
 
   /decamelize@1.2.0:
     resolution: {integrity: sha512-z2S+W9X73hAUUki+N+9Za2lBlun89zigOyGrsax+KUQ6wKW4ZoWpEYBkGhQjwAjjDCkWxhY0VKEhk8wzY7F5cA==}
@@ -2382,7 +2556,7 @@ packages:
       slash: 3.0.0
     dev: true
 
-  /graphql-config@5.1.2(@types/node@22.5.5)(graphql@16.9.0):
+  /graphql-config@5.1.2(@types/node@22.5.5)(graphql@16.9.0)(typescript@4.5.2):
     resolution: {integrity: sha512-kVwUuFz1h9u7B0nDPtnLFWN+x018niaH3zi1ChFCNfbunhDVJ911Z3YcglK5EfDfySeeH+zCa1aGxd1wMgNd7g==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
@@ -2398,7 +2572,7 @@ packages:
       '@graphql-tools/merge': 9.0.7(graphql@16.9.0)
       '@graphql-tools/url-loader': 8.0.2(@types/node@22.5.5)(graphql@16.9.0)
       '@graphql-tools/utils': 10.5.4(graphql@16.9.0)
-      cosmiconfig: 9.0.0
+      cosmiconfig: 9.0.0(typescript@4.5.2)
       graphql: 16.9.0
       jiti: 1.21.6
       minimatch: 9.0.5
@@ -2850,7 +3024,6 @@ packages:
 
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
-    dev: true
 
   /mute-stream@0.0.8:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
@@ -3367,6 +3540,11 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
+  /typescript@4.5.2:
+    resolution: {integrity: sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+
   /ua-parser-js@1.0.39:
     resolution: {integrity: sha512-k24RCVWlEcjkdOxYmVJgeD/0a1TiSpqLg+ZalVGV9lsnr4yqu0w7tX/x2xX6G4zpkgQnRf89lxuZ1wsbjXM8lw==}
     hasBin: true
@@ -3380,6 +3558,13 @@ packages:
   /undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
     dev: true
+
+  /undici@5.28.4:
+    resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
+    engines: {node: '>=14.0'}
+    dependencies:
+      '@fastify/busboy': 2.1.1
+    dev: false
 
   /unixify@1.0.0:
     resolution: {integrity: sha512-6bc58dPYhCMHHuwxldQxO3RRNZ4eCogZ/st++0+fcC1nr0jiGUtAdBJ2qzmLQWSxbtz42pWt4QQMiZ9HvZf5cg==}

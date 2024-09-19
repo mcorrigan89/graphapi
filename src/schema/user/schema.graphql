@@ -1,3 +1,8 @@
+type UserNotFound implements GraphError {
+  message: String!
+  code: Int!
+}
+
 type User {
   id: ID!
   givenName: String
@@ -5,8 +10,10 @@ type User {
   email: String!
 }
 
+union UserResult = User | UserNotFound | UnknownError
+
 extend type Query {
-  userById(id: ID!): User
+  userById(id: ID!): UserResult!
 }
 
 input CreateUserPayload {
@@ -16,6 +23,13 @@ input CreateUserPayload {
   password: String!
 }
 
+type EmailUnavailable implements GraphError {
+  message: String!
+  code: Int!
+}
+
+union CreateUserResult = User | EmailUnavailable | UnknownError
+
 extend type Mutation {
-  createUser(payload: CreateUserPayload!): User
+  createUser(payload: CreateUserPayload!): CreateUserResult!
 }

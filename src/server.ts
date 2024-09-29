@@ -4,6 +4,8 @@ import { typeDefs } from "@/schema/typeDefs.generated";
 import { resolvers } from "@/schema/resolvers.generated";
 import { getToken, SESSION_KEY } from "@/session";
 import { logger } from "./logger";
+import { useOpenTelemetry } from "@envelop/opentelemetry";
+import { trace } from "@opentelemetry/api";
 
 export interface ServerContext {
   logger: typeof logger;
@@ -29,5 +31,15 @@ const yoga = createYoga({
       },
     };
   },
+  plugins: [
+    useOpenTelemetry(
+      {
+        resolvers: true, // Tracks resolvers calls, and tracks resolvers thrown errors
+        variables: true, // Includes the operation variables values as part of the metadata collected
+        result: true, // Includes execution result object as part of the metadata collected
+      },
+      trace.getTracerProvider()
+    ),
+  ],
 });
 export const server = createServer(yoga);

@@ -2,7 +2,8 @@ import { Code, ConnectError } from "@connectrpc/connect";
 import { identityClient } from "../../../../api/identity";
 import type { QueryResolvers } from "./../../../types.generated";
 import { SESSION_KEY } from "../../../../session";
-export const userById: NonNullable<QueryResolvers['userById']> = async (
+
+export const userById: NonNullable<QueryResolvers["userById"]> = async (
   _parent,
   arg,
   ctx

@@ -10,6 +10,10 @@ const env = cleanEnv(process.env, {
   }),
   PORT: port({ devDefault: testOnly(4001) }),
   IDENTITY_URL: str({ devDefault: testOnly("http://identity:4000") }),
+  OTEL_SERVICE_NAME: str({ devDefault: testOnly("graphapi-service") }),
+  OTEL_EXPORTER_OTLP_ENDPOINT: str({
+    devDefault: testOnly("http://localhost:4317"),
+  }),
 });
 
 export { env };
